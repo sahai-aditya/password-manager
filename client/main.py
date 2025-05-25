@@ -1,9 +1,10 @@
 from utils import interface, connection
 
-"""
-Will implement socket feature later.
-Code will go here that will look for the server and connect to it.
-"""
+
+client_socket = connection.init()
+if not connection.is_connected(client_socket):
+    print("Sorry, couldn't connect to server. Please try again later.")
+    connection.close(client_socket)
 
 print("\nEnter 'q' at any time to quit.")
 print("\n1. Sign In")
@@ -20,12 +21,12 @@ elif signin_signup == "2":
 
 # quit
 elif signin_signup.lower() == "q":
-    connection.close()
+    connection.close(client_socket)
 
 # invalid input
 else:
     print("\nCould not understand, please try again!")
-    connection.close()
+    connection.close(client_socket)
 
 # if code makes it here means user exists
 # implement logging in
