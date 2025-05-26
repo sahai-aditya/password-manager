@@ -4,6 +4,7 @@ import socket
 import asyncio
 
 import config
+from utils.logger import log
 
 
 def init():
@@ -26,5 +27,14 @@ def init():
 
 async def handle_client(client_socket, client_addr):
     """
-
+    Calls the necessary functions from data_manager to manipulate data.
     """
+    try:
+        print(f"Fetching data from {client_addr} ...")
+        await asyncio.sleep(5) # mimics IO tasks
+        print(f"Data fetching from {client_addr} complete!")
+
+    finally:
+        log(6, {"address": client_addr})
+
+    return client_socket

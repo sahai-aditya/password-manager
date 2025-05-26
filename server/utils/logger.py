@@ -17,6 +17,7 @@ def log(msg_type, data=None):
     3 -> server socket starts listening : {"address": (IPv4, port)}
     4 -> server socket closed
     5 -> client connected : {"address": (client IPv4, client port)}
+    6 -> client disconnected : {"address": (client IPv4, client port)}
     """
     current_time = get_current_time()
     message = ""
@@ -28,7 +29,7 @@ def log(msg_type, data=None):
         message = "SERVER CREATION FAILED"
 
     elif msg_type == 3:
-        message = f"SERVER LISTENING AT {data['address']}"
+        message = f"SERVER LISTENING AT {data['address']} (PRESS CTRL+C TO CLOSE IT)"
 
     elif msg_type == 4:
         message = "SERVER SOCKET CLOSED"
