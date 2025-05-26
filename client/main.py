@@ -1,3 +1,5 @@
+import asyncio
+
 from utils import interface, connector
 
 
@@ -32,5 +34,4 @@ else:
 # implement logging in
 # implement chatbot loop
 
-connector.send_data(client_socket, username)
 connector.close(client_socket)

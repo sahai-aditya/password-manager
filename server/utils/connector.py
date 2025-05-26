@@ -2,7 +2,7 @@
 
 import socket
 import asyncio
-from struct import unpack
+from struct import pack, unpack
 
 import config
 from utils.logger import log
@@ -25,6 +25,14 @@ def init():
         return False
 
     return server_socket
+
+def send_data(client_socket, data):
+    """
+    Sends given data to client.
+    """
+    payload = data.encode("UTF-8")
+    length = pack("!I", len(payload))
+    client_socket.sendall(length + payload)
 
 async def receive_data(client_socket):
     """
@@ -51,8 +59,9 @@ async def handle_client(client_socket, active_clients):
     """
     client_addr = client_socket.getpeername()
     try:
-        data = await receive_data(client_socket)
-        print(f"'{data}'")
+        # data = await receive_data(client_socket)
+        # print(f"'{data}'")
+        # send_data(client_socket, "hello")
 
     finally:
         client_socket.close()

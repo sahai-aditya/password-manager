@@ -1,8 +1,9 @@
 # This module has functions related to sockets to avoid redundancy
 
+import asyncio
 import socket
 from time import sleep
-from struct import pack
+from struct import pack, unpack
 
 import config
 
@@ -52,6 +53,25 @@ def send_data(client_socket, data):
     payload = data.encode("UTF-8")
     length = pack("!I", len(payload))
     client_socket.sendall(length + payload)
+
+def receive_data(client_socket):
+    """
+    Receives data from server.
+    Returns None if server disconnects without sending any data.
+    """
+    length = client_socket.recv(4)
+
+    if not length:
+        return None
+
+    length = unpack("!I", length)[0]
+    data = b""
+
+    while len(data) < length:
+        packet = client_socket.recv(length - len(data))
+        data += packet
+
+    return data.decode("UTF-8")
 
 def close(client_socket):
     """
