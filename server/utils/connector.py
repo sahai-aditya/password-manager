@@ -25,16 +25,19 @@ def init():
 
     return server_socket
 
-async def handle_client(client_socket, client_addr):
+async def handle_client(client_socket, active_clients):
     """
     Calls the necessary functions from data_manager to manipulate data.
     """
+    client_addr = client_socket.getpeername()
     try:
         print(f"Fetching data from {client_addr} ...")
         await asyncio.sleep(5) # mimics IO tasks
         print(f"Data fetching from {client_addr} complete!")
 
     finally:
+        client_socket.close()
+        active_clients.remove(client_socket)
         log(6, {"address": client_addr})
 
     return client_socket
