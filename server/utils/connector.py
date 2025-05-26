@@ -2,6 +2,7 @@
 
 import socket
 import asyncio
+from struct import unpack
 
 import config
 from utils.logger import log
@@ -25,15 +26,33 @@ def init():
 
     return server_socket
 
+async def receive_data(client_socket):
+    """
+    Receives data from a particular client.
+    Returns None if client disconnects without sending any data.
+    """
+    length = await asyncio.get_running_loop().sock_recv(client_socket, 4)
+
+    if not length:
+        return None
+
+    length = unpack("!I", length)[0]
+    data = b""
+
+    while len(data) < length:
+        packet = await asyncio.get_running_loop().sock_recv(client_socket, length - len(data))
+        data += packet
+
+    return data.decode("UTF-8")
+
 async def handle_client(client_socket, active_clients):
     """
     Calls the necessary functions from data_manager to manipulate data.
     """
     client_addr = client_socket.getpeername()
     try:
-        print(f"Fetching data from {client_addr} ...")
-        await asyncio.sleep(5) # mimics IO tasks
-        print(f"Data fetching from {client_addr} complete!")
+        data = await receive_data(client_socket)
+        print(f"'{data}'")
 
     finally:
         client_socket.close()

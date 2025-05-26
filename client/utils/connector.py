@@ -2,6 +2,7 @@
 
 import socket
 from time import sleep
+from struct import pack
 
 import config
 
@@ -43,6 +44,14 @@ def is_connected(client_socket):
         return True
 
     return False
+
+def send_data(client_socket, data):
+    """
+    Sends given data to server.
+    """
+    payload = data.encode("UTF-8")
+    length = pack("!I", len(payload))
+    client_socket.sendall(length + payload)
 
 def close(client_socket):
     """
