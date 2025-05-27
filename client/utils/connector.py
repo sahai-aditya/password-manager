@@ -5,7 +5,9 @@ import socket
 from time import sleep
 from struct import pack, unpack
 
-import config
+
+SERVER_IP = "127.0.0.1"
+SERVER_PORT = 65432
 
 
 def init():
@@ -19,7 +21,7 @@ def init():
 
     for _ in range(10):
         try:
-            client_socket.connect((config.SERVER_IP, config.SERVER_PORT))
+            client_socket.connect((SERVER_IP, SERVER_PORT))
 
         except ConnectionRefusedError:
             print("Couldn't connect to server. Trying again ...")
@@ -41,7 +43,7 @@ def is_connected(client_socket):
     except OSError:
         return False
 
-    if server_ip == config.SERVER_IP and server_port == config.SERVER_PORT:
+    if server_ip == SERVER_IP and server_port == SERVER_PORT:
         return True
 
     return False

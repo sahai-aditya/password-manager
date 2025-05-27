@@ -4,8 +4,11 @@ import socket
 import asyncio
 from struct import pack, unpack
 
-import config
 from utils.logger import log
+
+
+SERVER_IP = "127.0.0.1"
+SERVER_PORT = 65432
 
 
 def init():
@@ -18,7 +21,7 @@ def init():
             family=socket.AF_INET, # means IPv4 address used
             type=socket.SOCK_STREAM, # means TCP socket created
         )
-        server_socket.bind((config.SERVER_IP, config.SERVER_PORT))
+        server_socket.bind((SERVER_IP, SERVER_PORT))
     
     except socket.error as err:
         print(err)

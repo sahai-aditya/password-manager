@@ -2,7 +2,6 @@ import asyncio
 
 from utils import connector
 from utils.logger import log, get_current_time
-import config
 
 
 async def main():
