@@ -1,4 +1,4 @@
-# This module has functions to interact with the sqlite3 database
+# This module has functions to interact with the sqlite3 database passwords table
 
 import sqlite3
 import os
